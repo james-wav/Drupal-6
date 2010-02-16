@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield
+END
+filefield.install
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.install
+END
+filefield.devel.inc
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.devel.inc
+END
+field_file.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/field_file.inc
+END
+filefield.theme.inc
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.theme.inc
+END
+filefield_field.inc
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield_field.inc
+END
+filefield.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.js
+END
+filefield_widget.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield_widget.inc
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/LICENSE.txt
+END
+UPGRADE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/UPGRADE.txt
+END
+filefield.module
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.module
+END
+filefield-rtl.css
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield-rtl.css
+END
+filefield.css
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.css
+END
+filefield.token.inc
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.token.inc
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/README.txt
+END
+filefield.info
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield.info
+END
+filefield_formatter.inc
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/filefield/filefield_formatter.inc
+END

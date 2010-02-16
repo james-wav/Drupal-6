@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search
+END
+views_handler_field_search_score.inc
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search/views_handler_field_search_score.inc
+END
+views_handler_sort_search_score.inc
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search/views_handler_sort_search_score.inc
+END
+views_plugin_row_search_view.inc
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search/views_plugin_row_search_view.inc
+END
+views_handler_filter_search.inc
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search/views_handler_filter_search.inc
+END

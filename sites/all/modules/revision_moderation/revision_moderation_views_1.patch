@@ -1,0 +1,288 @@
+Index: revision_moderation.module
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/revision_moderation/revision_moderation.module,v
+retrieving revision 1.39.2.12
+diff -u -p -r1.39.2.12 revision_moderation.module
+--- revision_moderation.module	17 Dec 2009 06:18:07 -0000	1.39.2.12
++++ revision_moderation.module	28 Dec 2009 08:38:46 -0000
+@@ -10,6 +10,16 @@
+ include_once drupal_get_path('module', 'revision_moderation') .'/revision_moderation_actions.inc';
+ 
+ /**
++ * Implementation of hook_views_api().
++ */
++function revision_moderation_views_api() {
++  return array(
++    'api' => 2,
++    'path' => drupal_get_path('module', 'revision_moderation') .'/views',
++  );
++}
++
++/**
+  * Implementation of hook_menu().
+  */
+ function revision_moderation_menu() {
+Index: revision_moderation.views.inc
+===================================================================
+RCS file: views/revision_moderation.views.inc
+diff -N views/revision_moderation.views.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ views/revision_moderation.views.inc	28 Dec 2009 08:38:46 -0000
+@@ -0,0 +1,82 @@
++<?php
++// $Id$
++
++/**
++ * Implementation of hook_views_data()
++ */
++function revision_moderation_views_data() {
++  $data = array();
++
++  // Basic table information.
++  $data['revision_moderation']['table']['group']  = t('Revision moderation');
++
++  // For other base tables, explain how we join
++  $data['revision_moderation']['table']['join'] = array(
++    // Enable for node view.
++    'node' => array(
++      'table' => 'node_revisions',
++      'left_table' => 'node',
++      'field' => 'nid',
++      'left_field' => 'nid',
++     ),
++     // Enable for node revision view.
++    'node_revisions' => array(
++      'table' => 'node_revisions',
++      'field' => 'vid',
++      'left_field' => 'vid',
++    ),
++  );
++
++  $data['revision_moderation']['state'] = array(
++    'title' => t('Revision state'),
++    'help' => t('State of node revision (pending moderation etc.).'),
++    'field' => array(
++      'handler' => 'views_handler_field_revision_moderation_state',
++      'click sortable' => TRUE,
++    ),
++    'filter' => array(
++      'handler' => 'views_handler_filter_revision_moderation_state',
++      'allow empty' => FALSE,
++    ),
++  );
++
++  $data['revision_moderation']['in_moderation'] = array(
++    'title' => t('Node in moderation'),
++    'help' => t('Either an unpublished node or a pending revision.'),
++    'field' => array(
++      'handler' => 'views_handler_field_revision_moderation_in_moderation',
++      'click sortable' => TRUE,
++    ),
++    'filter' => array(
++      'handler' => 'views_handler_filter_revision_moderation_in_moderation',
++      'allow empty' => FALSE,
++    ),
++  );
++
++  return $data;
++}
++
++/**
++ * Implementation of hook_views_handlers().
++ */
++function revision_moderation_views_handlers() {
++  return array(
++    'info' => array(
++      'path' => drupal_get_path('module', 'revision_moderation') .'/views',
++    ),
++    'handlers' => array(
++      'views_handler_field_revision_moderation_state' => array(
++        'parent' => 'views_handler_field_node',
++      ),
++      'views_handler_filter_revision_moderation_state' => array(
++        'parent' => 'views_handler_filter_in_operator',
++      ),
++      'views_handler_field_revision_moderation_in_moderation' => array(
++        'parent' => 'views_handler_field_node',
++      ),
++      'views_handler_filter_revision_moderation_in_moderation' => array(
++        'parent' => 'views_handler_filter',
++      ),
++    ),
++  );
++}
+Index: views_handler_field_revision_moderation_in_moderation.inc
+===================================================================
+RCS file: views/views_handler_field_revision_moderation_in_moderation.inc
+diff -N views/views_handler_field_revision_moderation_in_moderation.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ views/views_handler_field_revision_moderation_in_moderation.inc	28 Dec 2009 08:38:46 -0000
+@@ -0,0 +1,32 @@
++<?php
++// $Id$
++
++/**
++ * Field handler.
++ */
++class views_handler_field_revision_moderation_in_moderation extends views_handler_field_node {
++  function construct() {
++    parent::construct();
++    $this->additional_fields['node_vid'] = array('table' => 'node', 'field' => 'vid');
++    $this->additional_fields['node_status'] = array('table' => 'node', 'field' => 'status');
++    $this->additional_fields['node_revisions_vid'] = array('table' => 'revision_moderation', 'field' => 'vid');
++  }
++
++  function query() {
++    $this->ensure_my_table();
++    $this->add_additional_fields();
++  }
++
++  function render($values) {
++    $node_vid = $values->{$this->aliases['node_vid']};
++    $node_status = $values->{$this->aliases['node_status']};
++    $node_revisions_vid = $values->{$this->aliases['node_revisions_vid']};
++    if ($node_status == 0) {
++      $output = t('new content');
++    }
++    elseif ($node_revisions_vid > $node_vid) {
++      $output = t('pending revision');
++    }
++    return $output;
++  }
++}
+Index: views_handler_field_revision_moderation_state.inc
+===================================================================
+RCS file: views/views_handler_field_revision_moderation_state.inc
+diff -N views/views_handler_field_revision_moderation_state.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ views/views_handler_field_revision_moderation_state.inc	28 Dec 2009 08:38:46 -0000
+@@ -0,0 +1,38 @@
++<?php
++// $Id$
++
++/**
++ * Field handler.
++ */
++class views_handler_field_revision_moderation_state extends views_handler_field_node {
++  function construct() {
++    parent::construct();
++    $this->additional_fields['node_vid'] = array('table' => 'node', 'field' => 'vid');
++    $this->additional_fields['node_revisions_vid'] = array('table' => 'revision_moderation', 'field' => 'vid');
++  }
++
++  function query() {
++    $this->ensure_my_table();
++    $this->add_additional_fields();
++  }
++
++  function render($values) {
++    $node_vid = $values->{$this->aliases['node_vid']};
++    $node_revisions_vid = $values->{$this->aliases['node_revisions_vid']};
++    if (empty($node_vid) || empty($node_revisions_vid)) {
++      return $output;
++    }
++
++    if ($node_revisions_vid > $node_vid) {
++      $output = t('pending revision');
++    }
++    elseif ($node_revisions_vid < $node_vid) {
++      $output = t('old revision');
++    }
++    else {
++      $output = t('current revision');
++    }
++
++    return $output;
++  }
++}
+Index: views_handler_filter_revision_moderation_in_moderation.inc
+===================================================================
+RCS file: views/views_handler_filter_revision_moderation_in_moderation.inc
+diff -N views/views_handler_filter_revision_moderation_in_moderation.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ views/views_handler_filter_revision_moderation_in_moderation.inc	28 Dec 2009 08:38:46 -0000
+@@ -0,0 +1,26 @@
++<?php
++// $Id$
++
++/**
++ * Filter handler.
++ */
++class views_handler_filter_revision_moderation_in_moderation extends views_handler_filter {
++  function admin_summary() { }
++  function operator_form() { }
++
++  function query() {
++    $node_revisions = $this->ensure_my_table();
++    $node = $this->query->ensure_table('node');
++
++    $where_array = array();
++
++    // Unpublished node.
++    $where_array[] = "($node.status = 0 AND $node_revisions.vid = $node.vid)";
++
++    // Pending revision.
++    $where_array[] = "$node_revisions.vid > $node.vid";
++
++    $where = "(". implode(" OR ", $where_array) .")";
++    $this->query->add_where($this->options['group'], $where);
++  }
++}
+Index: views_handler_filter_revision_moderation_state.inc
+===================================================================
+RCS file: views/views_handler_filter_revision_moderation_state.inc
+diff -N views/views_handler_filter_revision_moderation_state.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ views/views_handler_filter_revision_moderation_state.inc	28 Dec 2009 08:38:47 -0000
+@@ -0,0 +1,51 @@
++<?php
++// $Id$
++
++/**
++ * Filter handler.
++ */
++class views_handler_filter_revision_moderation_state extends views_handler_filter_in_operator {
++  function get_value_options() {
++    $options = array(
++      'current' => t('Current revision'),
++      'pending' => t('Pending revision'),
++      'old'     => t('Old revision'),
++    );
++    $this->value_title = t('Revision state');
++    $this->value_options = $options;
++  }
++
++  function query() {
++    $node_revisions = $this->ensure_my_table();
++    $node = $this->query->ensure_table('node');
++
++    $where_array = array();
++    foreach ($this->value as $value) {
++      switch ($value) {
++        case 'current':
++          $where_array[] = "$node_revisions.vid = $node.vid";
++          break;
++
++        case 'pending':
++          $where_array[] = "$node_revisions.vid > $node.vid";
++          break;
++
++        case 'old':
++          $where_array[] = "$node_revisions.vid < $node.vid";
++          break;
++      }
++    }
++
++    switch ($this->operator) {
++      case 'in':
++        $where = "(". implode(" OR ", $where_array) .")";
++        break;
++
++      case 'not in':
++        $where = "!(". implode(" OR ", $where_array) .")";
++        break;
++    }
++
++    $this->query->add_where($this->options['group'], $where);
++  }
++}

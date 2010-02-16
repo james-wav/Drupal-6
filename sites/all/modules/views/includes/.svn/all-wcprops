@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes
+END
+admin.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/admin.inc
+END
+tabs.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/tabs.inc
+END
+base.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/base.inc
+END
+view.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/view.inc
+END
+convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/convert.inc
+END
+handlers.inc
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/handlers.inc
+END
+plugins.inc
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/plugins.inc
+END
+ajax.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/ajax.inc
+END
+analyze.inc
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/analyze.inc
+END
+cache.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/cache.inc
+END
+form.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/form.inc
+END
+query.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/includes/query.inc
+END

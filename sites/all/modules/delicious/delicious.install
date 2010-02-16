@@ -1,0 +1,88 @@
+<?php
+// $Id: delicious.install,v 1.1.4.4.2.3 2009/01/23 18:49:33 paulbooker Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function delicious_install() {
+  // Create tables.
+  drupal_install_schema('delicious');
+}
+
+/**
+* Implementation of hook_schema().
+*/
+function delicious_schema() {
+  $schema['delicious_user'] = array(
+    'fields' => array(
+      'uid' => array('type' => 'int', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'user' => array('type' => 'varchar', 'length' => '255'),
+      'pass' => array('type' => 'varchar', 'length' => '255'),
+      'lastupdate' => array('type' => 'varchar', 'length' => '20', 'default' => ''),
+      'lastcode' => array('type' => 'int', 'length' => '11'),
+      'overview' => array('type' => 'int', 'length' => '1', 'not null' => TRUE, 'default' => 0),
+      'pagesize' => array('type' => 'int', 'length' => '2', 'not null' => TRUE, 'default' => 0)
+    ),
+    'primary key' => array('uid')
+  );  
+  $schema['delicious_link'] = array(
+    'fields' => array(
+      'lid' => array('type' => 'serial', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'uid' => array('type' => 'int', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'href' => array('type' => 'text', 'size' => 'big'),
+      'description' => array('type' => 'text', 'size' => 'big'),
+      'extended' => array('type' => 'text', 'size' => 'big'),
+      'linktime' => array('type' => 'int', 'length' => '11', 'default' => 0),
+      'hash' => array('type' => 'varchar', 'length' => '64'),
+      'shared' => array('type' => 'int', 'length' => '1', 'not null' => TRUE, 'default' => 1),
+      'synced' => array('type' => 'int', 'length' => '1')      
+    ),
+    'indexes' => array(
+      'delicious_link_synced' => array('synced')
+    ),
+    'unique keys' => array(
+       'delicious_link_hash' => array('hash')
+    ),
+    'primary key' => array('lid')
+  );
+  $schema['delicious_tag'] = array(
+    'fields' => array(
+      'lid' => array('type' => 'int', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'uid' => array('type' => 'int', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'name' => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE),
+      'synced' => array('type' => 'int', 'size' => 'tiny', 'length' => '1')
+    ),
+    'indexes' => array(
+      'delicious_tag_synced' => array('synced'),
+      'delicious_tag_uid' => array('uid')
+    ),
+    'unique keys' => array(
+       'delicious_tag_id' => array('lid', 'name')
+    )
+  );  
+  $schema['delicious_block'] = array(
+    'fields' => array(
+      'dbid' => array('type' => 'serial', 'length' => '10', 'unsigned' => TRUE, 'not null' => TRUE),
+      'title' => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE),     
+      'users' => array('type' => 'text', 'size' => 'big'),
+      'tags' => array('type' => 'text', 'size' => 'big'),      
+      'maxentries' => array('type' => 'int', 'size' => 'tiny', 'length' => '2'),
+      'display' => array('type' => 'int', 'size' => 'tiny', 'length' => '1'),
+      'orderby' => array('type' => 'int', 'size' => 'tiny', 'length' => '1'),
+    ),
+    'primary key' => array('dbid'),
+  );
+   
+  return $schema;
+} 
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function delicious_uninstall() {
+  drupal_uninstall_schema('delicious');	
+  variable_del('delicious_crosslink');
+  variable_del('delicious_tagging');
+  variable_del('delicious_node_types');
+  drupal_set_message('The delicious module was uninstalled successfully.');
+}

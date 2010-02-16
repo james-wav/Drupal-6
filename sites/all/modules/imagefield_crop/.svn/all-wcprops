@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/LICENSE.txt
+END
+imagefield_crop.css
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop.css
+END
+imagefield_crop_file.inc
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop_file.inc
+END
+imagefield_crop.info
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop.info
+END
+imagefield_crop.js
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop.js
+END
+imagefield_crop_widget.inc
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop_widget.inc
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/README.txt
+END
+imagefield_crop.module
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop.module
+END
+imagefield_crop.install
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield_crop/imagefield_crop.install
+END

@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes
+END
+cache-install.inc
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/cache-install.inc
+END
+install.mysql.inc
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/install.mysql.inc
+END
+bootstrap.inc
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/bootstrap.inc
+END
+file.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/file.inc
+END
+mail.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/mail.inc
+END
+theme.maintenance.inc
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/theme.maintenance.inc
+END
+session.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/session.inc
+END
+install.mysqli.inc
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/install.mysqli.inc
+END
+module.inc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/module.inc
+END
+common.inc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/common.inc
+END
+database.pgsql.inc
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/database.pgsql.inc
+END
+path.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/path.inc
+END
+database.mysql-common.inc
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/database.mysql-common.inc
+END
+actions.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/actions.inc
+END
+theme.inc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/theme.inc
+END
+form.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/form.inc
+END
+install.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/install.inc
+END
+database.mysql.inc
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/database.mysql.inc
+END
+image.gd.inc
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/image.gd.inc
+END
+batch.inc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/batch.inc
+END
+database.mysqli.inc
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/database.mysqli.inc
+END
+image.inc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/image.inc
+END
+language.inc
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/language.inc
+END
+unicode.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/unicode.inc
+END
+xmlrpcs.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/xmlrpcs.inc
+END
+install.pgsql.inc
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/install.pgsql.inc
+END
+pager.inc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/pager.inc
+END
+tablesort.inc
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/tablesort.inc
+END
+locale.inc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/locale.inc
+END
+cache.inc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/cache.inc
+END
+menu.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/menu.inc
+END
+database.inc
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/database.inc
+END
+xmlrpc.inc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/includes/xmlrpc.inc
+END

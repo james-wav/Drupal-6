@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile
+END
+views_handler_field_profile_list.inc
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile/views_handler_field_profile_list.inc
+END
+views_handler_field_profile_date.inc
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile/views_handler_field_profile_date.inc
+END
+views_handler_filter_profile_selection.inc
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile/views_handler_filter_profile_selection.inc
+END

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/LICENSE.txt
+END
+imagefield.info
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield.info
+END
+imagefield_formatter.inc
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield_formatter.inc
+END
+imagefield_widget.inc
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield_widget.inc
+END
+UPGRADE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/UPGRADE.txt
+END
+imagefield.module
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield.module
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/README.txt
+END
+imagefield.install
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield.install
+END
+imagefield.css
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield.css
+END
+imagefield_file.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imagefield/imagefield_file.inc
+END

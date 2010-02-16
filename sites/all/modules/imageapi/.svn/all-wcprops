@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/LICENSE.txt
+END
+imageapi.module
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi.module
+END
+imageapi_gd.info
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi_gd.info
+END
+imagefilter.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imagefilter.inc
+END
+imageapi.install
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi.install
+END
+imageapi_imagemagick.info
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi_imagemagick.info
+END
+imageapi.info
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi.info
+END
+imagerotate.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imagerotate.inc
+END
+imageapi_gd.module
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi_gd.module
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/README.txt
+END
+imageapi_gd.install
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi_gd.install
+END
+imageapi_imagemagick.module
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/imageapi/imageapi_imagemagick.module
+END

@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token
+END
+tokenSTARTER.info
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/tokenSTARTER.info
+END
+token.rules.inc
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token.rules.inc
+END
+token_actions.module
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_actions.module
+END
+token.install
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token.install
+END
+token_user.inc
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_user.inc
+END
+token_taxonomy.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_taxonomy.inc
+END
+API.txt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/API.txt
+END
+token_actions.info
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_actions.info
+END
+token_node.inc
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_node.inc
+END
+token.test
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token.test
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/LICENSE.txt
+END
+token.module
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token.module
+END
+tokenSTARTER.module
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/tokenSTARTER.module
+END
+token_comment.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token_comment.inc
+END
+token.info
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/token.info
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/token/README.txt
+END

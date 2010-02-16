@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts
+END
+drupal.sh
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts/drupal.sh
+END
+code-style.pl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts/code-style.pl
+END
+cron-lynx.sh
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts/cron-lynx.sh
+END
+code-clean.sh
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts/code-clean.sh
+END
+cron-curl.sh
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/scripts/cron-curl.sh
+END

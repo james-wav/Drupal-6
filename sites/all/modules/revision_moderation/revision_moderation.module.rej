@@ -1,0 +1,25 @@
+***************
+*** 10,15 ****
+  include_once drupal_get_path('module', 'revision_moderation') .'/revision_moderation_actions.inc';
+  
+  /**
+   * Implementation of hook_menu().
+   */
+  function revision_moderation_menu() {
+--- 10,25 ----
+  include_once drupal_get_path('module', 'revision_moderation') .'/revision_moderation_actions.inc';
+  
+  /**
++  * Implementation of hook_views_api().
++  */
++ function revision_moderation_views_api() {
++   return array(
++     'api' => 2,
++     'path' => drupal_get_path('module', 'revision_moderation') .'/views',
++   );
++ }
++ 
++ /**
+   * Implementation of hook_menu().
+   */
+  function revision_moderation_menu() {

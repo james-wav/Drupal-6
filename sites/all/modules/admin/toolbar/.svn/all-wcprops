@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar
+END
+admin_toolbar-rtl.css
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/admin_toolbar-rtl.css
+END
+admin_toolbar.css
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/admin_toolbar.css
+END
+admin_toolbar.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/admin_toolbar.js
+END
+sprite.png
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/sprite.png
+END
+admin-links.tpl.php
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/admin-links.tpl.php
+END
+theme.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/theme.inc
+END
+admin-toolbar.tpl.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/admin-toolbar.tpl.php
+END
+icons.png
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/admin/toolbar/icons.png
+END

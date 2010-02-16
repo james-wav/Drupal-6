@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules
+END
+taxonomy.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/taxonomy.views_convert.inc
+END
+user.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/user.views.inc
+END
+aggregator.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/aggregator.views.inc
+END
+taxonomy.views_default.inc
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/taxonomy.views_default.inc
+END
+system.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/system.views.inc
+END
+upload.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/upload.views.inc
+END
+node.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/node.views_convert.inc
+END
+node.views_default.inc
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/node.views_default.inc
+END
+statistics.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/statistics.views.inc
+END
+book.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/book.views.inc
+END
+translation.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/translation.views.inc
+END
+locale.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/locale.views.inc
+END
+profile.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile.views_convert.inc
+END
+comment.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/comment.views_convert.inc
+END
+search.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search.views.inc
+END
+comment.views_default.inc
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/comment.views_default.inc
+END
+taxonomy.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/taxonomy.views.inc
+END
+user.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/user.views_convert.inc
+END
+upload.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/upload.views_convert.inc
+END
+filter.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/filter.views.inc
+END
+node.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/node.views.inc
+END
+book.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/book.views_convert.inc
+END
+statistics.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/statistics.views_convert.inc
+END
+contact.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/contact.views.inc
+END
+views.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/views.views.inc
+END
+statistics.views_default.inc
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/statistics.views_default.inc
+END
+profile.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/profile.views.inc
+END
+comment.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/comment.views.inc
+END
+search.views_convert.inc
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search.views_convert.inc
+END
+poll.views.inc
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/poll.views.inc
+END
+search.views_default.inc
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/WEAREVI/drupaldummy/svn/!svn/ver/8/branch/drupal-6.13/sites/all/modules/views/modules/search.views_default.inc
+END

@@ -1,0 +1,948 @@
+<?php
+// $Id: delicious.module,v 1.25.4.17.2.5 2009/01/23 18:49:33 paulbooker Exp $
+
+// Please see http://delicious.com/help/api
+define(DELICIOUS_BASE_URL, 'http://del.icio.us/');
+define(DELICIOUS_API_URL, 'https://api.del.icio.us/');
+define(DELICIOUS_UPDATE_URL, 'v1/posts/update');
+define(DELICIOUS_POSTS_URL, 'v1/posts/all');
+
+/**
+ * Implementation of hook_help().
+ */
+function delicious_help($section = "admin/help#delicious") {
+  $output = "";
+  if (substr($section, 0, 4) == 'user' && substr($section, -9) == 'delicious') {
+    return t('Enabling the delicious module and providing a valid username and password will allow this site to synchronize your del.icio.us bookmarks once an hour (or whenever cron is run).');
+  }
+  switch ($section) {
+    case 'admin/help#delicious':
+      $output = t("Provides integration with del.icio.us REST web services");
+      break;
+    case 'admin/modules#description':
+      $output = t("Provides integration with del.icio.us REST web services");
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_link().
+ */
+// Add a link, if necessary, to the links section of a node
+function delicious_link($type, $node = NULL, $teaser = FALSE) {
+  module_load_include('inc', 'delicious');
+  if ($node && user_access('view delicious links') && $type == 'node' && _delicious_nodetype_applicable($node->type) && variable_get('delicious_crosslink', 0)) {
+    if ($link = _delicious_term_link($node)) {
+      $links = array();
+      $links[] = array(
+        'href' => $link,
+        'title' => t('del.icio.us links'),
+      );
+      return $links;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_settings().
+ */
+function delicious_admin_settings() {
+  // Build a list of node types
+  $node_types = drupal_map_assoc(array_keys(node_get_types()));
+  $form["delicious_crosslink"] = array(
+    '#type' => 'checkbox',
+    '#title' => t("Enable del.icio.us related crosslink"),
+    '#return_value' => 1,
+    '#default_value' => variable_get("delicious_crosslink", 0),
+    '#description' => t("Enable a link to a del.icio.us tag corresponding to the node's first term."),
+  );
+  $form["delicious_tagging"] = array(
+    '#type' => 'checkbox',
+    '#title' => t("Enable del.icio.us \"smart tagging\""),
+    '#return_value' => 1,
+    '#default_value' => variable_get("delicious_tagging", 1),
+    '#description' => t("Words in node bodies matching del.icio.us tags will be linked to del.icio.us."),
+  );
+  $form['delicious_node_types'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Node Types'),
+    '#default_value' => variable_get('delicious_node_types', array('blog', 'page', 'story')),
+    '#options' => $node_types,
+    '#description' => t('SELECT all node types that allow crosslinking and/or smarttagging.'),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function delicious_perm() {
+  return array('view delicious links', 'create delicious links', 'administer delicious');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function delicious_menu() {
+  global $user;  
+  $items['delicious'] = array(
+    'title' => 'delicious links',
+    'access arguments' => array('view delicious links'),
+    'page callback' => 'delicious_page',
+    'type' => MENU_SUGGESTED_ITEM
+  );
+  $items['delicious/tag'] = array(
+    'title' => 'delicious tags',
+    'access arguments' => array('view delicious links'),
+    'page callback' => 'delicious_page_tag',
+    'type' => MENU_CALLBACK
+  );
+  $items['delicious/user'] = array(
+    'title' => 'delicious users',
+    'access arguments' => array('view delicious links'),
+    'page callback' => 'delicious_page_user',
+    'type' => MENU_CALLBACK
+  );
+  // administrative items
+  $items['admin/settings/delicious'] = array(
+    'title' => 'delicious settings',
+    'description' => 'delicious settings.',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('delicious_admin_settings'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['admin/build/block/delicious'] = array(
+    'title' => 'del.icio.us',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'delicious_admin'
+  );
+  $items['admin/build/block/delicious/view'] = array(
+    'title' => 'view del.icio.us blocks',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'delicious_admin',
+    'weight' => -1,
+    'type' => MENU_DEFAULT_LOCAL_TASK
+  );
+  $items['admin/build/block/delicious/add'] = array(
+    'title' => 'add del.icio.us block',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'delicious_admin_edit',
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/build/block/delicious/edit'] = array(
+    'title' => 'edit del.icio.us block',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'delicious_admin_edit',
+    'type' => MENU_CALLBACK
+  );
+  $items['admin/build/block/delicious/delete'] = array(
+    'title' => 'edit del.icio.us block',
+    'access arguments' => array('administer delicious'),
+    'page callback' => 'delicious_admin_delete',
+    'type' => MENU_CALLBACK
+  );  
+  /* TODO : Need to investigate what this commented block is all about ?
+  $result = db_query("SELECT dbid, title FROM {delicious_block}");
+  while ($block = db_fetch_object($result)) {
+    $items['delicious/block/%dbid'] = array(
+      'title' => $block->title,
+      'page callback' => 'delicious_block_page',
+      'page arguments' => array(2),
+      'type' => MENU_CALLBACK
+    );
+  } */    
+  // User's personal page
+  $items['user/%user/delicious'] = array(
+    'title' => 'delicious',
+    'access arguments' => array('create delicious links'),
+    'page callback' => 'delicious_page_settings',
+    'page arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+// Smart-tag nodes if that functionality is turned on.
+function delicious_nodeapi(&$node, $op, $arg = 0) {
+  module_load_include('inc', 'delicious');	 
+  if (!_delicious_nodetype_applicable($node->type)) {
+    return;
+  }
+  switch ($op) {
+    // smart-tagging
+    case "alter":
+      module_load_include('inc', 'delicious');
+      if (user_access('view delicious links') && variable_get("delicious_tagging", 1)) {
+        // WARNING: there's no UI for setting this?
+        $uname = variable_get("delicious_tag_user", ""); 
+        if (!$uname) {
+          $uname = db_result(db_query("SELECT user FROM {delicious_user} WHERE uid = %d", $node->uid));
+        }
+        if ($uname) {
+		  if (!empty($node->body)) {
+		    $node->body = _delicious_tag_text($node->body, $uname);
+		  }
+		  if (!empty($node->teaser)) {
+		    $node->teaser = _delicious_tag_text($node->teaser, $uname);
+		  }
+        }
+      }
+    break;
+  }
+  return;
+}
+
+/**
+ * Implementation of hook_cron().
+ */
+function delicious_cron() {
+  module_load_include('inc', 'delicious');
+  $result = db_query("SELECT DISTINCT(u.uid), u.name, d.user, d.pass, d.lastupdate, d.lastcode FROM {users} u INNER JOIN {delicious_user} d ON u.uid = d.uid");
+  while ($u = db_fetch_object($result)) {
+    if ($u->lastcode != 403 && $u->lastcode != 401) {
+      $usersupdate += _delicious_update_user($u);
+    }
+  }
+  if ($usersupdate) {
+    watchdog("info", "information FROM del.icio.us has been updated for $usersupdate user(s).");
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function delicious_block($op = 'list', $delta = 0, $edit = array()) {
+  if (user_access('view delicious links')) {
+    switch ($op) {
+      case 'list':
+        $result = db_query("SELECT dbid, title FROM {delicious_block}");
+        $blocks = array();
+        while ($block = db_fetch_object($result)) {
+          $blocks["delicious-$block->dbid"]['info'] = $block->title;
+        }
+        return $blocks;
+      case 'configure':
+        list(, $id) = explode('-', $delta);
+        $form = delicious_block_form($id);
+        unset($form['submit']);
+        return $form;
+      case 'save':
+        delicious_block_edit_submit('delicious_block_form', $edit);
+        break;
+      case 'view':
+        list(, $id) = explode('-', $delta);
+        return delicious_recent($id);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function delicious_theme() {
+  return array(
+    'delicious_link' => array(
+      'arguments' => array('link', 'attr'),
+    ),
+    'delicious_tags' => array(
+      'arguments' => array('tags'),
+    ),
+    'delicious_block' => array(
+      'arguments' => array('delicious_links', 'block'),
+    ),
+    'delicious_page' => array(
+      'arguments' => array('delicious_links'),
+    ),
+    'delicious_user' => array(
+      'arguments' => array('uid'),
+    ),
+  );
+}
+
+/**
+ * Display delicious overview (a page of all users with delicious tags)
+ */
+function delicious_page() {
+  $query = "SELECT u.name, du.uid, COUNT(dt.uid) AS linkcount FROM {delicious_user} du LEFT JOIN {delicious_tag} dt ON du.uid = dt.uid LEFT JOIN {users} u on du.uid = u.uid GROUP BY dt.uid ORDER BY u.name";
+  $count_query = "SELECT COUNT(DISTINCT(uid)) FROM {delicious_user}";
+  $result = pager_query($query, 20, $count_query);
+
+  $header = array(t("User"), t("Link Count"));
+
+  while ($u = db_fetch_object($result)) {
+    $rows[] = array(
+      array("data" => l($u->name, "delicious/user/$u->uid")),
+      array("data" => $u->linkcount, "align" => "right")
+    );
+  }
+
+  if (!$rows) {
+    $rows[] = array(array("data" => t("No del.icio.us users available."), "colspan" => "2"));
+  }
+
+  $pager = theme("pager", NULL, 20, 0);
+  if (!empty($pager)) {
+    $rows[] = array(array("data" => $pager, "colspan" => "2"));
+  }
+
+  $output = theme('table', $header, $rows);
+  $output = "<div class=delicious-list>$output</div>\n";
+  return $output;
+}
+
+/**
+ * render a list of all user's links for a given tag
+ */
+function delicious_page_tag($tag = "", $uid = "") {
+  if (!$tag) {
+    return delicious_page();
+  }
+
+  drupal_set_title("delicious links for '$tag'");
+
+  if ($uid) {
+    $u = user_load(array('uid' => $uid));
+    if ($u) {
+      $uidwhere = " AND u.uid = " . intval($uid);
+      $breadcrumb = drupal_get_breadcrumb();
+      $breadcrumb[] = l($u->name, "delicious/user/$uid");
+      drupal_set_breadcrumb($breadcrumb);
+      drupal_set_title("$u->name's delicious links for '$tag'");
+    }
+  }
+  
+  if ($uid) {
+  $result = pager_query("SELECT u.name, u.uid, dl.description, dl.href, dl.linktime, dl.extended FROM {delicious_tag} dt LEFT JOIN {delicious_link} dl ON dt.lid = dl.lid LEFT JOIN {users} u ON dl.uid = u.uid WHERE dt.name = '$tag' AND u.uid = '$uid' ORDER BY dl.linktime desc", 20); 
+  } 
+  else {
+    $result = pager_query("SELECT u.name, u.uid, dl.description, dl.href, dl.linktime, dl.extended FROM {delicious_tag} dt LEFT JOIN {delicious_link} dl ON dt.lid = dl.lid LEFT JOIN {users} u ON dl.uid = u.uid WHERE dt.name = '$tag'  ORDER BY dl.linktime desc", 20);
+  }
+  //TODO: $tag added inside pager_query() to avoid the error "warning: Division by zero " 
+
+  $header = array(t("Link"), "&nbsp;", t("User"), t("Date"));
+  while ($obj = db_fetch_object($result)) {
+    $rows[] = array(
+      array("data" => theme('delicious_link', $obj), "colspan" => "2"),
+      array("data" => l($obj->name, "delicious/user/$obj->uid")),
+      array("data" => format_date($obj->linktime, 'medium'))
+    );
+    if ($obj->extended) {
+      $rows[] = array(
+        array("data" => "&nbsp;"),
+        array("data" => $obj->extended, "colspan" => "3")
+      );
+    }
+  }
+  if (!$rows) {
+    $rows[] = array(array("data" => t("No del.icio.us links for $tag."), "colspan" => "4"));
+  }
+
+  $pager = theme("pager", NULL, 20, 0);
+  if (!empty($pager)) {
+    $rows[] = array(array("data" => $pager, "colspan" => "4"));
+  }
+
+  $output = "";
+  if ($uid) {
+    $output = '<p>'. l(t('View "%n" for all users', array('%n' => $tag)), "delicious/tag/$tag") .'</p>';
+  }
+
+  $output .= theme('table', $header, $rows);
+  $output = "<div class=delicious-tag>$output</div>\n";
+
+  return $output;
+}
+
+/**
+ * Render a user's tag and links with javascript actuators
+ */
+function delicious_page_user($uid = 0) {
+  $output = theme('delicious_user', $uid);
+  if (!$output) {
+    drupal_goto('delicious');
+  }
+  drupal_set_breadcrumb(array(l(t('Home'), ''), l('Delicious', 'delicious')));
+  return $output;
+}
+
+/**
+ * render/handle user specific settings page
+ */
+function delicious_page_settings() { 
+  $uid = arg(1);
+  $output = drupal_get_form('delicious_page_settings_form', $uid);
+  return $output;
+}
+
+/**
+ * render user specific delicious settings form
+ */
+function delicious_page_settings_form(&$form_state, $uid) {  
+  // Check to see if a delicious_user entry exists
+  $result = db_query("SELECT * FROM {delicious_user} WHERE uid = %d", $uid);
+  $userinfo = db_fetch_object($result);
+
+  $form['uid'] = array(
+    '#type' => 'hidden',
+    '#value' => $uid,
+  );
+
+  if ($userinfo) {
+    $arg = array('@url' => DELICIOUS_BASE_URL);
+    $form["user"] = array(
+      '#type' => 'textfield',
+      '#title' => t("username"),
+      '#default_value' => $userinfo->user,
+      '#size' => 24,
+      '#maxlength' => 24,
+      '#description' => t('Your <a href="@url">del.icio.us</a> User Name. ', $arg),
+    );
+    $form["pass"] = array(
+      '#type' => 'password',
+      '#title' => t("password"),
+      '#default_value' => $userinfo->pass,
+      '#size' => 24,
+      '#maxlength' => 24,
+      '#description' => t('Your <a href="@url">del.icio.us</a> Password. ', $arg),
+    );
+    $form["overview"] = array(
+      '#type' => 'checkbox',
+      '#title' => t("simple overview page?"),
+      '#return_value' => 1,
+      '#default_value' => $userinfo->overview,
+      '#description' => t('NB: Due to a rather heavy sql statement the response time of your page can be slow (20secs+) depending on the number of links you have. Check this box for a simpler version'),
+    );
+    $form['pagesize'] = array(
+      '#type' => 'textfield',
+      '#title' => t("pagesize"),
+      '#default_value' => $userinfo->pagesize,
+      '#size' => 2,
+      '#maxlength' => 2,
+      '#description' => t('If using the simple overview, how many links per page?'),
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+    );
+    $form['disable'] = array(
+      '#type' => 'submit',
+      '#value' => t('Disable'),
+    );
+  }
+  else {
+    $form['message'] = array(
+      '#type' => 'markup',
+      '#value' => '<p>'. t("Delicious links fetching is currently disabled for this account.") .'</p>',
+    );
+    $form['enable'] = array(
+      '#type' => 'submit',
+      '#value' => t('Enable'),
+    );
+  }
+  $form['#submit'][] = 'delicious_page_settings_submit';
+
+  return $form;
+}
+
+/**
+ * delicious settings form submit handler
+ */
+function delicious_page_settings_submit($form, &$form_state) {
+  module_load_include('inc', 'delicious');  
+  $form_values = $form_state['values'];  
+  if ($form_values['op'] == t('Enable')) {
+    // create a delicious_user entry
+    $result = db_query("INSERT INTO {delicious_user} (uid) VALUES (%d)", $form_values['uid']);
+    drupal_set_message(t("Delicious Links have been enabled; please fill out the del.icio.us username and password."));
+  }
+  else if ($form_values['op'] == t('Disable')) {
+    $result = db_query("DELETE FROM {delicious_user} WHERE uid=%d", $form_values['uid']);
+    drupal_set_message(t("Delicious Links fetching disabled."));
+  }
+  else if ($form_values['op'] == t('Submit')) {
+    // get the user for this account, before it is updated, for use down below
+    $delicious_user = db_result(db_query("SELECT user FROM {delicious_user} WHERE uid = %d", $form_values['uid']));
+    $delicious_pass = db_result(db_query("SELECT pass FROM {delicious_user} WHERE uid = %d", $form_values['uid']));
+
+    // modify fields
+    $pass = $form_values['pass'] ? $form_values['pass'] : $delicious_pass;
+    db_query("UPDATE {delicious_user} SET user='%s', pass='%s', overview=%d, pagesize=%d WHERE uid=%d", $form_values['user'], $pass, $form_values['overview'], $form_values['pagesize'], $form_values['uid']);
+    $u = db_fetch_object(db_query("SELECT u.uid, u.name, d.user, d.pass, d.lastupdate, d.lastcode, d.lastcode FROM {users} u INNER JOIN {delicious_user} d ON u.uid = d.uid WHERE u.uid = %d", $form_values['uid']));
+    // if the account user name is being changed, do an immediate refresh on the data
+    if (($delicious_user != $form_values['user']) || ($delicious_pass != $pass) || ($u->lastcode == '401')) { 
+      db_query("UPDATE {delicious_user} SET lastupdate = 0 WHERE uid = %d", $form_values['uid']);      
+      if (!_delicious_update_user($u)) {
+      drupal_set_message(t('You didn\'t successfully connect with the Delicious service, please check your authorisation details'));
+       } else {   
+         drupal_set_message(t('Tags updated'));
+      }
+    }
+    drupal_set_message(t("Settings updated."));
+  }
+}
+
+// ----------------------------------------------------------------------------
+// block admin, support and render
+//
+
+/**
+ * render admin page
+ */
+function delicious_admin() {
+  $result = pager_query("SELECT dbid, title, maxentries FROM {delicious_block} ORDER BY title", 20);
+
+  $header = array(t("Title"), t("Max Entries"), t("&nbsp;"));
+
+  while ($u = db_fetch_object($result)) {
+    $rows[] = array(
+      array("data" => $u->title),
+      array("data" => $u->maxentries, "align" => "right"),
+      array("data" => l(t('edit'), "admin/build/block/delicious/edit/$u->dbid") .' | '. l(t('delete'), "admin/build/block/delicious/delete/$u->dbid"))
+    );
+  }
+
+  if (!$rows) {
+    $rows[] = array(array("data" => t("No del.icio.us blocks exist."), "colspan" => "3"));
+  }
+
+  $pager = theme("pager", NULL, 20, 0);
+  if (!empty($pager)) {
+    $rows[] = array(array("data" => $pager, "colspan" => "3"));
+  }
+
+  $output = theme('table', $header, $rows);
+  return $output;
+}
+
+/**
+ * render block add or edit page, and/or handle results
+ */
+function delicious_admin_edit($block = 0) {
+  if (arg(2) == 'edit' && (!is_numeric($block) || $block == 0))  {
+    return drupal_access_denied();
+  }
+
+  $output = drupal_get_form('delicious_block_form', $block);
+
+  return $output;
+}
+
+function delicious_admin_delete($dbid = 0) {
+  $block = delicious_load_block($dbid);
+  if ($block['title'] == '') {
+    return drupal_access_denied();
+  }
+
+  return drupal_get_form('delicious_confirm_delete_form', $dbid);
+}
+
+function delicious_confirm_delete_form($form_state, $dbid) {
+  $form['block'] = array('#type' => 'value', '#value' => $dbid);
+  $block = delicious_load_block($dbid);
+  return confirm_form(
+    $form,
+    t('Are you sure you want to delete %title?', array('%title' => $block['title'])),
+    $_GET['destination'] ? $_GET['destination'] : 'admin/build/block/delicious',
+    t('This action cannot be undone.'),
+    t('Delete'),
+    t('Cancel')
+  );
+}
+
+function delicious_confirm_delete_form_submit($form, &$form_state) {
+  $form_values = $form_state['values']; 
+  if ($form_values['confirm']) {
+    delicious_delete_block($form_values['block']);
+  }
+  $form_state['redirect'] = 'admin/build/block/delicious';
+}
+
+/**
+ * display add/edit block form
+ */
+function delicious_block_form(&$form_state, $dbid = 0) {
+  $block = delicious_load_block($dbid);
+
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => $block['title'],
+    '#maxlength' => 64,
+    '#description' => t('Enter the title of the block'),
+  );
+  $form['users'] = array(
+    '#type' => 'textfield',
+    '#title' => t('User List'),
+    '#default_value' => $block['users'],
+    '#maxlength' => 1024,
+    '#autocomplete_path' => 'user/autocomplete',
+    '#description' => t('Enter a comma separated list of users whose delicious links qualify; leave blank to collect links FROM all users.'),
+  );
+  $form['tags'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tag List'),
+    '#default_value' => $block['tags'],
+    '#maxlength' => 1024,
+    '#description' => t('Enter a comma separated list of tags to be used for block; leave blank to collect links FROM all tags.'),
+  );
+  $form['maxentries'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Num Entries'),
+    '#default_value' => $block['maxentries'] ? $block['maxentries'] : 10,
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#description' => t('The maximum number of recent entries that will appear in the block.'),
+  );
+  $options = array(0 => t('Title'), 1 => t('Tag'), 2 => t('Link'));
+  if (module_exists('tagadelic')) {
+    $options[3] = t('Tag Cloud');
+  }
+  $form['display'] = array(
+    '#type' => 'radios',
+    '#title' => t('Display'),
+    '#options' => $options,
+    '#default_value' => isset($block['display']) ? $block['display'] : 0,
+    '#description' => t('What to display'),
+  );
+  $form['orderby'] = array(
+    '#type' => 'radios',
+    '#title' => t('Order By'),
+    '#options' => array(0 => t('Link Date'), 1 => t('Number of Links')),
+    '#default_value' => isset($block['orderby']) ? $block['orderby'] : 0,
+    '#description' => t('How to order the results'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  if ($block['dbid']) {
+    $form['dbid'] = array(
+      '#type' => 'hidden',
+      '#value' => $block['dbid'],
+    );
+  }
+  $form['#submit'][] = 'delicious_block_edit_submit';
+
+  return $form;
+}
+
+/**
+ * save block to db
+ */
+function delicious_block_edit_submit($form, &$form_state) { 
+  $form_values = $form_state['values'];  
+
+  if ($form_values['dbid']) {
+    db_query("UPDATE {delicious_block} SET title='%s', users='%s', tags='%s', maxentries=%d, display=%d, orderby=%d WHERE dbid=%d", $form_values['title'], $form_values['users'], $form_values['tags'], $form_values['maxentries'], $form_values['display'], $form_values['orderby'], $form_values['dbid']);
+  }
+  else {
+    db_query("INSERT INTO {delicious_block} (dbid, title, users, tags, maxentries, display, orderby) VALUES (%d, '%s', '%s', '%s', %d, %d, %d)", NULL, $form_values['title'], $form_values['users'], $form_values['tags'], $form_values['maxentries'], $form_values['display'], $form_values['orderby']);
+  }
+  $form_state['redirect'] = 'admin/build/block/delicious';
+}
+
+/**
+ * load block from db
+ */
+function delicious_load_block($block) {
+  $obj = db_fetch_array(db_query("SELECT * FROM {delicious_block} WHERE dbid=%d", $block));
+  return $obj;
+}
+
+/**
+ * delete a block from db
+ */
+function delicious_delete_block($block) {
+  db_query("DELETE FROM {delicious_block} WHERE dbid=%d", $block);
+}
+
+/**
+ * hook_delicious
+ *
+ * callback function that module developers can implement to add or remove
+ * items from the users or tags
+ *
+ * @param $op
+ *   'users' or 'tags'
+ * @param $items
+ *   the array of users or tags
+ * @return
+ *   the modified array of users or tags
+ */
+function delicious_delicious($op, $items) {
+  return $items;
+}
+
+/**
+ * render recent links for _block() hook
+ */
+function delicious_recent($id) {
+  // retrieve which delicious block to work with
+  $block = db_fetch_object(db_query("SELECT * FROM {delicious_block} WHERE dbid=%d", $id));
+
+  // build the where clause from the users and tags
+  $args = array();
+  $users = $block->users ? explode(',', trim($block->users)) : array();
+  $users = module_invoke_all('delicious', 'users', $users);
+  if ($users) {
+    $placeholders = implode(',', array_fill(0, count($users), "'%s'"));
+    $where .= " AND u.name IN (". $placeholders .")";
+    $args = $users;
+  }
+  $tags = $block->tags ? explode(',', trim($block->tags)) : array();
+  $tags = module_invoke_all('delicious', 'tags', $tags);
+  if ($tags) {
+    if ($tags['like'] == TRUE) {
+      unset($tags['like']);
+      $where .= ' AND ('. implode(' OR ', array_fill(0, count($tags), "dt.name LIKE '%%%s%%'")) .')';
+    }
+    else {
+      $where .= ' AND dt.name IN ('. implode(',', array_fill(0, count($tags), "'%s'")) .')';
+    }
+    $args = array_merge($args, $tags);
+  }
+
+  // pick the description field
+  switch ($block->display) {
+    case 0:
+      $description = 'dl.description';
+      break;
+    case 1:
+    case 3:
+      $description = 'dt.name';
+      break;
+    case 2:
+      $description = 'dl.href';
+      break;
+  }
+  switch ($block->orderby) {
+    case 0:
+      $orderby = 'dl.linktime DESC';
+      break;
+    case 1:
+      $orderby = 'count DESC';
+      break;
+  }
+
+  // if the tagadelic module is installed, calculate the weights
+  if (module_exists('tagadelic') && $block->display == 3) {
+    $result = db_query_range("SELECT dt.name AS tid, COUNT(*) AS count FROM {delicious_link} dl LEFT JOIN {delicious_tag} dt ON dl.lid = dt.lid LEFT JOIN {users} u ON dl.uid = u.uid WHERE (1) $where GROUP BY dt.name ORDER BY count DESC", $args, 0, $block->maxentries + 1);
+    $weights = tagadelic_build_weighted_tags($result, variable_get('tagadelic_levels', 6));
+  }
+
+  $cols = array("$description AS description", "du.user", "COUNT(*) AS count");
+  if ($block->display != 1 && $block->display != 3) {
+    $cols[] = "dl.href";
+  }
+  $result = db_query_range("SELECT DISTINCT ". implode(',', $cols) ." FROM {delicious_link} dl LEFT JOIN {delicious_tag} dt ON dl.lid = dt.lid LEFT JOIN {delicious_user} du ON dl.uid=du.uid LEFT JOIN {users} u ON dl.uid = u.uid WHERE (1) $where GROUP BY $description, du.user, dl.href ORDER BY $orderby", $args, 0, $block->maxentries + 1);
+
+
+  $delicious_links = array();
+  while ($delicious_link = db_fetch_object($result)) {
+    if ($block->display == 1 || $block->display == 3) {
+      if ($block->display == 3) {
+        $delicious_link->weight = isset($weights[$delicious_link->description]) ? $weights[$delicious_link->description]->weight: 1;
+      }
+      $delicious_link->href = 'http://del.icio.us/'. $delicious_link->user .'/'. $delicious_link->description;
+    }
+    $delicious_links[] = $delicious_link;
+  }
+
+  if (count($delicious_links) == $block->maxentries + 1) {
+    array_pop($delicious_links);
+    $more = TRUE;
+  }
+  $output = theme('delicious_block', $delicious_links, $block);
+  if ($display || isset($more)) {
+    $output .= '<div class="more-link">'. l(t('more'), 'delicious/block/'. $id) .'</div>';
+  }
+  return array("content" => $output, "subject" => $block->title);
+}
+
+function delicious_block_page() {  
+  // retrieve which delicious block to work with
+  $id = arg(2);
+  $block = db_fetch_object(db_query("SELECT * FROM {delicious_block} WHERE dbid=%d", $id));
+
+  // build the where clause from the users and tags
+  $args = array();
+  $users = $block->users ? explode(',', trim($block->users)) : array();
+  $users = module_invoke_all('delicious', 'users', $users);
+  if ($users) {
+    $placeholders = implode(',', array_fill(0, count($users), "'%s'"));
+    $where .= " AND u.name IN (". $placeholders .")";
+    $args = $users;
+  }
+  $tags = $block->tags ? explode(',', trim($block->tags)) : array();
+  $tags = module_invoke_all('delicious', 'tags', $tags);
+  if ($tags) {
+    $placeholders = implode(',', array_fill(0, count($tags), "'%s'"));
+    $where .= " AND dt.name IN (". $placeholders .")";
+    $args = array_merge($args, $tags);
+  }
+
+  $query = "SELECT DISTINCT dl.description, dl.href, du.user FROM {delicious_link} dl LEFT JOIN {delicious_tag} dt ON dl.lid = dt.lid LEFT JOIN {delicious_user} du ON dl.uid=du.uid LEFT JOIN {users} u ON dl.uid = u.uid WHERE (1) $where ORDER BY dl.linktime DESC";
+  $count_query = "SELECT COUNT(DISTINCT dl.description, dl.href, du.user) FROM {delicious_link} dl LEFT JOIN {delicious_tag} dt ON dl.lid = dt.lid LEFT JOIN {delicious_user} du ON dl.uid=du.uid LEFT JOIN {users} u ON dl.uid = u.uid WHERE (1) $where";
+  $result = pager_query($query, 20, 0, $count_query, $args);
+
+  $delicious_links = array();
+  while ($delicious_link = db_fetch_object($result)) {
+    $result2 = db_query("SELECT DISTINCT dt.name FROM {delicious_link} dl LEFT JOIN {delicious_tag} dt ON dl.lid = dt.lid LEFT JOIN {users} u ON dl.uid = u.uid WHERE (1) $where AND dl.href = '%s' ORDER BY dt.name ASC", array_merge($args, array($delicious_link->href)));
+    while ($tag = db_fetch_object($result2)) {
+      $delicious_link->tags[] = array(
+        'href' => 'http://del.icio.us/'. $delicious_link->user .'/'. $tag->name,
+        'title' => $tag->name,
+      );
+    }
+    $delicious_links[] = $delicious_link;
+  }
+
+  $output = theme('delicious_page', $delicious_links);
+  $output .= theme('pager', NULL, 20, 0);
+  return $output;
+}
+
+
+//
+// theming function
+//
+function theme_delicious_block($delicious_links, $block) {
+  $items = _delicious_theme_delicious_links($delicious_links);
+  if (count($items)) {
+    return $block->display == 3 ? implode(' ', $items) : theme('item_list', $items);
+  }
+}
+
+function theme_delicious_page($delicious_links) {
+  $items = _delicious_theme_delicious_links($delicious_links);
+  if (count($items)) {
+    return theme('item_list', $items);
+  }
+}
+
+function _delicious_theme_delicious_links($delicious_links) {
+  $items = array();
+  if (count($delicious_links)) {
+    foreach ($delicious_links as $delicious_link) {
+      $items[] = theme('delicious_link', $delicious_link);
+    }
+  }
+  return $items;
+}
+
+
+function theme_delicious_link($link, $attr = array()) {  
+  $attr['class'] .= ' delicious_node';
+  if (isset($link->weight)) {
+    $attr['class'] .= ' tagadelic level'. $link->weight;
+  }
+  if (isset($link->extended)) {
+    $attr['title'] = $link->extended;
+  }
+  $name = $link->description;
+  if ($link->count > 1) {
+    $name .= ' ('. $link->count .')';
+  }
+  $output = l($name, $link->href, array('attributes'=>$attr));
+  if (count($link->tags)) {
+    $output .= theme('delicious_tags', $link->tags);
+  }
+  return '<div class="delicious-link">'. $output .'</div>';
+}
+
+function theme_delicious_tags($tags) {
+  $links = array();
+  foreach ($tags as $tag) {
+    $links[] = l($tag['title'], $tag['href']);
+  }
+  return t(' - ') .'<small>'. implode(' | ', $links) .'</small>';
+}
+
+function theme_delicious_user($uid) {
+	
+  $module = drupal_get_path('module', 'delicious');
+  drupal_add_css($module . '/delicious.css');
+  drupal_add_js($module . '/delicious.js');
+	
+  static $num_actuators;
+
+  if ($num_actuators) {
+    $num_actuators = 0; // ensure that it exists & stuff.
+  }
+
+  $user = db_fetch_object(db_query("SELECT u.name, du.overview, du.pagesize FROM {users} u LEFT JOIN {delicious_user} du ON du.uid = u.uid WHERE u.uid = %d", $uid));
+
+  if (!$user) {
+    return NULL;
+  }
+
+  drupal_set_title("delicious tags for $user->name");
+
+  if ($user->overview) {
+    if ($user->pagesize < 1) {
+      $user->pagesize = 25; // Set a default
+    }
+
+    $result = pager_query("SELECT name, COUNT(name) AS cnt FROM {delicious_tag} WHERE uid = %d GROUP BY name ORDER BY name ", $user->pagesize, 0, "SELECT COUNT(DISTINCT(name)) FROM {delicious_tag} WHERE uid = %d", $uid);
+
+    while ($obj = db_fetch_object($result)) {
+      $list[] = l($obj->name, "delicious/tag/$obj->name/$uid") ." ($obj->cnt)";
+    }
+    if ($list) {
+      $output = theme('item_list', $list);
+      $output .= theme('pager', NULL, $user->pagesize);
+    }
+    else {
+      $output = "No del.icio.us tags currently in database.";
+    }
+  }
+  else {
+    $result = db_query("SELECT dt.name, dl.description, dl.href, dl.linktime, dl.extended, count(dt2.name) AS linkcount FROM {delicious_tag} dt LEFT JOIN {delicious_link} dl ON dt.lid = dl.lid LEFT JOIN {delicious_tag} dt2 ON dt.name = dt2.name WHERE dt.uid = %d GROUP BY dl.lid, dt2.name ORDER BY dt.name", $uid);
+
+    $last_tag = '';
+    while ($obj = db_fetch_object($result)) {
+      if ($last_tag != $obj->name) {
+        // new tag
+        if ($last_tag) {
+          $output .= "</ul>\n";
+        }
+        $last_tag = $obj->name;
+        $num_actuators++; // ++ first, so we skip 0
+        $link = l($obj->name,
+            "delicious/tag/$obj->name",
+            array("title" => t($obj->extended),
+                "class" => "delicious_actuator",
+                "id" => "delicious_actuator$numActuators"));      
+        $link2 = "<a href='". DELICIOUS_BASE_URL ."tag/$obj->name>del.icio.us'</a>";
+        $link3 = l('more...', "delicious/tag/$obj->name");
+        $output .= "<li class='delicious_menubar'> $link ($obj->linkcount) $link2 $link3 </li> \n<ul class='delicious_submenu' id='delicious_menu_$numActuators'>\n";
+      }
+      $link = theme('delicious_link', $obj);
+      $output .= "<li> $link (". format_date($obj->linktime, 'medium') .")</li>\n";
+    }
+    if ($output) {
+      // close the last ul
+      $output .= "</ul>";
+      $output = "<div class='delicious-user'><ul class='delicious_menuList' id='delicious_menu_0'>\n$output</ul>\n</div>";
+    }
+    else {
+      $output = NULL;
+    }
+  }
+
+  return $output;
+}
+
+function delicious_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'delicious') .'/includes',
+  );
+  
+}

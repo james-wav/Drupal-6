@@ -1,0 +1,10 @@
+name = Del.icio.us
+description = "Provides integration with del.icio.us REST web services"
+core = "6.x"
+
+; Information added by drupal.org packaging script on 2009-01-28
+version = "6.x-1.2"
+core = "6.x"
+project = "delicious"
+datestamp = "1233186912"
+
